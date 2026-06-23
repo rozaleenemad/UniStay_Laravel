@@ -150,3 +150,4 @@ Then create `SocialAuthController` with `redirectToGoogle()` and `handleGoogleCa
 - **Frontend:** Blade, Tailwind CSS
 - **Auth:** Laravel Breeze
 - **Storage:** Laravel Storage (local/S3)
+"# UniStay_Laravel" 
