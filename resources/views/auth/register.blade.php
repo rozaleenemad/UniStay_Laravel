@@ -221,7 +221,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="w-full bg-[#4a3325] hover:bg-[#38251a]text-[#4a3728] font-extrabold py-3.5 px-4 rounded-xl text-sm transition-all shadow-md tracking-wide mt-2">
+                <button type="submit" class="w-full bg-[#4a3325] text-white font-extrabold py-3.5 px-4 rounded-xl text-sm transition-all shadow-md tracking-wide mt-2">
                     Create Account
                 </button>
 
