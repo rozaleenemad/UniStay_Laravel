@@ -1,153 +1,102 @@
-# StayUni — Student Housing Platform
-
-A Laravel full-stack platform connecting university students with nearby housing owners, with admin oversight and verification.
-
-## Roles
-
-| Role    | Description |
-|---------|-------------|
-| Admin   | Verifies owners, approves/rejects properties |
-| Owner   | Lists properties, goes through verification |
-| Student | Browses approved properties |
 
 ---
 
-## Local Setup
+# 🏠UniStay — Student Housing Platform
 
-### 1. Clone & install dependencies
+**UniStay** هي منصة ذكية تهدف إلى إعادة تعريف تجربة سكن الطلاب، من خلال بناء بيئة رقمية آمنة تربط الطلاب بأصحاب العقارات، مع اعتماد نظام إشرافي دقيق يضمن مصداقية كل عرض وتوثيق كل مالك.
 
+---
+
+## كيف تعمل المنصة؟ (نظام التوثيق والقبول)
+
+تعتمد المنصة على معايير أمان عالية لضمان حماية الطالب:
+
+* **توثيق المالك:** عند تسجيل المالك، لا يُكتفى بالتسجيل فقط، بل نطلب منه **البطاقة الشخصية (ID)** و **رقم التواصل الرسمي**. هذه البيانات تُرسل للإدارة لمراجعتها.
+* **نظام الإدارة (Admin Control):**
+* الإدارة تملك السلطة المطلقة في **قبول أو رفض حساب المالك** بناءً على بياناته.
+* بمجرد قبول المالك، يبدأ في رفع عقاراته.
+* **كل شقة جديدة** يرفعها المالك تخضع لمراجعة الإدارة (قبول/رفض) لضمان مطابقتها للمواصفات.
+
+
+
+---
+
+## تجربة البحث والفلترة الذكية
+
+تم تصميم واجهة المنصة لتكون دقيقة وسريعة للطلاب:
+
+* **فلترة شاملة:** يمكن للطالب البحث في العقارات أو الصيانات بسهولة عبر:
+* **المحافظة:** للوصول للسكن القريب من الجامعة أو مكان الدراسة.
+* **نوع الصيانة/السكن:** لتحديد نوع الخدمة أو الوحدة المطلوبة بدقة عالية.
+* **الجنسيه:** لوصول الشقه المطلوبه سواء female or male
+
+
+---
+
+## المميزات الرئيسية
+
+* **نظام تحقق صارم:** توثيق هوية المالك (البطاقة + الرقم) هو شرط أساسي للبدء.
+* **إشراف كامل (Admin-First):** لا توجد شقة أو مالك يظهر للطلاب دون مراجعة إدارية وقبول رسمي.
+* **إدارة الصيانات:** نظام مستقل لتتبع الصيانات وفلترتها حسب المحافظة والنوع.
+* **حماية أمنية:** حماية ضد الثغرات البرمجية ونظام صلاحيات (Middleware) يضمن خصوصية كل دور.
+* **واجهة مستخدم عصرية:** تصميم متجاوب (Tailwind CSS) يوفر تجربة تصفح مريحة للطلاب.
+
+---
+
+## 🛠 التقنيات المستخدمة
+
+* **Backend:** Laravel 11, PHP 8.2+
+* **Database:** MySQL
+* **Frontend:** Blade, Tailwind CSS
+* **Auth:** Laravel Breeze & Socialite (Google Auth)
+
+---
+
+## ليل التشغيل السريع
+
+1. **تجهيز المشروع:**
 ```bash
 git clone <your-repo-url>
-cd project-unistay
-
 composer install
 npm install && npm run build
+
 ```
 
-### 2. Configure environment
 
+2. **ضبط إعدادات البيئة:**
 ```bash
 cp .env.example .env
 php artisan key:generate
+
 ```
 
-Then edit `.env` and fill in:
-```
-DB_DATABASE=stayuni
-DB_USERNAME=your_db_user
-DB_PASSWORD=your_db_password
 
-ADMIN_EMAIL=admin@yourdomain.com
-ADMIN_PASSWORD=your_strong_password_here
-```
-
-### 3. Run migrations
-
+3. **قاعدة البيانات:**
 ```bash
 php artisan migrate
+
 ```
 
-### 4. Create the admin account
 
-**⚠️ Never use the seeder for production admin.** Use this command instead:
-
+4. **إنشاء حساب المدير (Admin):**
 ```bash
 php artisan admin:create
+
 ```
 
-It will ask you for email, name, and password interactively. Nothing is stored in code.
 
-### 5. (Optional) Seed test users for local development only
-
-```bash
-php artisan db:seed --class=TestUsersSeeder
-```
-
-This creates:
-- `owner@stayuni.test` / `password`
-- `student@stayuni.test` / `password`
-
-### 6. Run the app
-
-```bash
-php artisan serve
-```
-
----
-
-## Storage
-
-Link storage so uploaded images are accessible:
-
+5. **التشغيل:**
 ```bash
 php artisan storage:link
+php artisan serve
+
 ```
+
+
 
 ---
 
-## Production Checklist
-
-Before deploying to production:
-
-```bash
-# 1. Set these in .env:
-APP_ENV=production
-APP_DEBUG=false
-APP_URL=https://your-domain.com
-
-# 2. Optimize
-php artisan config:cache
-php artisan route:cache
-php artisan view:cache
-php artisan optimize
-
-# 3. Create admin (interactive — password never touches code)
-php artisan admin:create
-
-# 4. NEVER run:
-# php artisan db:seed                     ← runs AdminUserSeeder (reads from .env, safe)
-# php artisan db:seed --class=TestUsersSeeder  ← local dev ONLY
-```
+**UniStay: لأن رحلة البحث عن سكن يجب أن تكون موثقة وآمنة.**
 
 ---
 
-## Security Notes
-
-- `role` and `status` fields are NOT in `$fillable` — preventing mass-assignment attacks
-- Admin routes are protected by the `admin` middleware (role check at route level)
-- Student routes are protected by the `student` middleware
-- Owner routes require `owner.active` middleware (checks pending/rejected status)
-- Owners start as `pending` — admin must approve before they can list properties
-- Properties go back to `pending` after any edit — admin must re-approve
-- File uploads are validated: jpg/jpeg/png only, max 4MB per image
-- `.env` is excluded from git via `.gitignore`
-
----
-
-## Social Login (Google OAuth)
-
-To enable "Continue with Google":
-
-```bash
-composer require laravel/socialite
-```
-
-Add to `.env`:
-```
-GOOGLE_CLIENT_ID=your_google_client_id
-GOOGLE_CLIENT_SECRET=your_google_client_secret
-GOOGLE_REDIRECT_URI=https://your-domain.com/auth/google/callback
-```
-
-Then create `SocialAuthController` with `redirectToGoogle()` and `handleGoogleCallback()` methods.
-
----
-
-## Tech Stack
-
-- **Backend:** Laravel 11, PHP 8.2+
-- **Database:** MySQL (SQLite for local dev)
-- **Frontend:** Blade, Tailwind CSS
-- **Auth:** Laravel Breeze
-- **Storage:** Laravel Storage (local/S3)
-"# UniStay_Laravel" 
